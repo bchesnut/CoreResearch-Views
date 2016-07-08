@@ -17,8 +17,10 @@ select pi.sysuserid pi_sysuserid,
 union
 select pr.u_pi pi_sysuserid,
        u.sysuserid sysuserid
-  from s_project pr,
-       sysuser u
+  from s_project pr
+         inner join u_projectcores pc on pc.s_projectid = pr.s_projectid
+         inner join departmentsysuser ds on ds.departmentid = pc.coreid
+         inner join sysuser u on u.sysuserid = ds.sysuserid
          inner join jobtype ujt on ujt.jobtypeid = u.lastjobtype
  where not exists (
     select *
